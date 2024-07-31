@@ -7,14 +7,15 @@ import {
   getBooksWrittenByAuthorId,
   updateAuthor,
 } from "../controllers/authorController";
+import { authorSchema, validate } from "../validators";
 
 const router = Router();
 
 router.get("/", getAuthor);
 router.get("/:id", getAuthorById);
 router.get("/:id/books", getBooksWrittenByAuthorId);
-router.post("/", createAuthor);
-router.put("/:id", updateAuthor);
+router.post("/", validate(authorSchema), createAuthor);
+router.put("/:id", validate(authorSchema), updateAuthor);
 router.delete("/:id", deleteAuthor);
 
 const authorsRoutesConfigure = (app: Express) => {
