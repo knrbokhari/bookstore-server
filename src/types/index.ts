@@ -31,3 +31,9 @@ export interface Book {
 }
 
 export type PaginatedBook = Paginated<Book>;
+
+export interface User {
+  id?: number;
+  username: string;
+  password: string;
+}

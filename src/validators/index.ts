@@ -39,6 +39,20 @@ export const bookSchema = Joi.object({
   }),
 });
 
+// Joi schema for user validation
+export const userSchema = Joi.object({
+  username: Joi.string().required().messages({
+    "any.required": "Username is required",
+    "string.empty": "Username cannot be empty",
+    "string.base": "Username must be a string",
+  }),
+  password: Joi.string().required().messages({
+    "any.required": "Password is required",
+    "string.empty": "Password cannot be empty",
+    "string.base": "Password must be a string",
+  }),
+});
+
 export const validate =
   (schema: Joi.Schema) => (req: Request, res: Response, next: NextFunction) => {
     const { error } = schema.validate(req.body, {
