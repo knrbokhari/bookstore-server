@@ -93,3 +93,18 @@ export const updateBookService = async (
     throw error;
   }
 };
+
+export const deleteBookService = async (id: number): Promise<boolean> => {
+  try {
+    const isBook = await db("books").where({ id }).first();
+
+    if (!isBook) {
+      throw new NotFound("Book Not Found!");
+    }
+
+    const rowsAffected = await db("books").where({ id }).del();
+    return rowsAffected > 0;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -1,6 +1,7 @@
 import { Router, Express } from "express";
 import {
   createBook,
+  deleteBook,
   getBookById,
   getBooks,
   updateBook,
@@ -13,7 +14,7 @@ router.get("/:id", getBookById);
 router.get("/author/:id");
 router.post("/", createBook);
 router.put("/:id", updateBook);
-router.delete("/:id");
+router.delete("/:id", deleteBook);
 
 const booksRoutesConfigure = (app: Express) => {
   app.use("/api/books", router);

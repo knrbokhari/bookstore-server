@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import asyncHandler from "../utils/asyncHandler";
 import {
   createBookService,
+  deleteBookService,
   getAllBooksService,
   getBookByIdService,
   updateBookService,
@@ -43,4 +44,10 @@ export const updateBook = asyncHandler(async (req: Request, res: Response) => {
     author_id,
   });
   res.status(200).json({ success: true, data: result, message: "Sucessfull" });
+});
+
+export const deleteBook = asyncHandler(async (req: Request, res: Response) => {
+  const id = parseInt(req.params.id, 10);
+  await deleteBookService(id);
+  res.status(200).json({ success: true, message: "Sucessfull" });
 });
