@@ -2,7 +2,7 @@
 /* eslint-disable no-useless-catch */
 import db from "../db/knex";
 import { Book, PaginatedBook } from "../types";
-import { NotFound } from "../utils/error";
+import { BadRequest, NotFound } from "../utils/error";
 
 export const getAllBooksService = async (
   page: number,
@@ -104,6 +104,56 @@ export const deleteBookService = async (id: number): Promise<boolean> => {
 
     const rowsAffected = await db("books").where({ id }).del();
     return rowsAffected > 0;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getBooksByAuthorIdService = async (
+  authorId: number,
+  page: number,
+  limit: number,
+): Promise<PaginatedBook> => {
+  try {
+    if (isNaN(authorId) || authorId <= 0) {
+      throw new BadRequest("Invalid authorId");
+    }
+
+    const isAuthor = await db("authors").where({ id: authorId }).first();
+
+    if (!isAuthor) {
+      throw new NotFound("Author Not Found!");
+    }
+
+    const offset = (page - 1) * limit;
+
+    // Fetch the total number of books
+    const totalItemsResult: any = await db("books")
+      .where({ author_id: authorId })
+      .count({ count: "*" })
+      .first();
+    const totalItems: number = parseInt(totalItemsResult?.count || "0", 10);
+
+    // Ensure page is within valid range
+    const totalPages: number = Math.ceil(totalItems / limit);
+    if (page > totalPages) {
+      page = totalPages;
+    }
+
+    // Fetch the books for the current page
+    const books: Book[] = await db("books")
+      .where({ author_id: authorId })
+      .select("*")
+      .limit(limit)
+      .offset(offset);
+
+    return {
+      totalItems,
+      currentPage: page,
+      totalPages,
+      limit,
+      items: books,
+    };
   } catch (error) {
     throw error;
   }

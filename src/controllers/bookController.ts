@@ -5,6 +5,7 @@ import {
   deleteBookService,
   getAllBooksService,
   getBookByIdService,
+  getBooksByAuthorIdService,
   updateBookService,
 } from "../services/bookService";
 
@@ -51,3 +52,18 @@ export const deleteBook = asyncHandler(async (req: Request, res: Response) => {
   await deleteBookService(id);
   res.status(200).json({ success: true, message: "Sucessfull" });
 });
+
+export const getBooksByAuthorId = asyncHandler(
+  async (req: Request, res: Response) => {
+    const id = parseInt(req.params.id, 10);
+    const { page = 1, limit = 10 } = req.query;
+    const pageNum = parseInt(page as string, 10);
+    const limitNum = parseInt(limit as string, 10);
+
+    const result = await getBooksByAuthorIdService(id, pageNum, limitNum);
+
+    res
+      .status(200)
+      .json({ success: true, data: result, message: "Sucessfull" });
+  },
+);
