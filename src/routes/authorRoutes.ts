@@ -1,13 +1,20 @@
 import { Router, Express } from "express";
+import {
+  createAuthor,
+  deleteAuthor,
+  getAuthor,
+  getAuthorById,
+  updateAuthor,
+} from "../controllers/authorController";
 
 const router = Router();
 
-router.get("/");
-router.get("/:id");
+router.get("/", getAuthor);
+router.get("/:id", getAuthorById);
 router.get("/:id/books");
-router.post("/");
-router.put("/:id");
-router.delete("/:id");
+router.post("/", createAuthor);
+router.put("/:id", updateAuthor);
+router.delete("/:id", deleteAuthor);
 
 const authorsRoutesConfigure = (app: Express) => {
   app.use("/api/authors", router);
