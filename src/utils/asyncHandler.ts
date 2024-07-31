@@ -10,7 +10,7 @@ const asyncHandler =
   (fn: AsyncHandler) => (req: Request, res: Response, next: any) =>
     Promise.resolve(fn(req, res, next)).catch((error) => {
       next(error, req, res);
-      console.log(error);
+      if (process.env.NODE_ENV !== "PRODUCTION") console.log(error);
     });
 
 export default asyncHandler;
