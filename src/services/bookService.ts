@@ -51,3 +51,12 @@ export const getBookByIdService = async (id: number): Promise<Book> => {
     throw error;
   }
 };
+
+export const createBookService = async (book: Book): Promise<Book> => {
+  try {
+    const [newBook] = await db("books").insert(book).returning("*");
+    return newBook;
+  } catch (error) {
+    throw error;
+  }
+};
