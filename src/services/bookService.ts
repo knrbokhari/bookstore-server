@@ -2,6 +2,7 @@
 /* eslint-disable no-useless-catch */
 import db from "../db/knex";
 import { Book, PaginatedBook } from "../types";
+import { NotFound } from "../utils/error";
 
 export const getAllBooksService = async (
   page: number,
@@ -32,6 +33,20 @@ export const getAllBooksService = async (
       limit,
       items: authors,
     };
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getBookByIdService = async (id: number): Promise<Book> => {
+  try {
+    const book = await db("books").where({ id }).first();
+
+    if (!book) {
+      throw new NotFound("Book Not Found!");
+    }
+
+    return book;
   } catch (error) {
     throw error;
   }

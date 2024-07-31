@@ -1,10 +1,10 @@
 import { Router, Express } from "express";
-import { getBooks } from "../controllers/bookController";
+import { getBookById, getBooks } from "../controllers/bookController";
 
 const router = Router();
 
 router.get("/", getBooks);
-router.get("/:id");
+router.get("/:id", getBookById);
 router.get("/author/:id");
 router.post("/");
 router.put("/:id");
