@@ -4,6 +4,7 @@ import {
   createBookService,
   getAllBooksService,
   getBookByIdService,
+  updateBookService,
 } from "../services/bookService";
 
 export const getBooks = asyncHandler(async (req: Request, res: Response) => {
@@ -24,6 +25,18 @@ export const getBookById = asyncHandler(async (req: Request, res: Response) => {
 export const createBook = asyncHandler(async (req: Request, res: Response) => {
   const { title, description, published_date, author_id } = req.body;
   const result = await createBookService({
+    title,
+    description,
+    published_date,
+    author_id,
+  });
+  res.status(200).json({ success: true, data: result, message: "Sucessfull" });
+});
+
+export const updateBook = asyncHandler(async (req: Request, res: Response) => {
+  const id = parseInt(req.params.id, 10);
+  const { title, description, published_date, author_id } = req.body;
+  const result = await updateBookService(id, {
     title,
     description,
     published_date,

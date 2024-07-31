@@ -3,6 +3,7 @@ import {
   createBook,
   getBookById,
   getBooks,
+  updateBook,
 } from "../controllers/bookController";
 
 const router = Router();
@@ -11,7 +12,7 @@ router.get("/", getBooks);
 router.get("/:id", getBookById);
 router.get("/author/:id");
 router.post("/", createBook);
-router.put("/:id");
+router.put("/:id", updateBook);
 router.delete("/:id");
 
 const booksRoutesConfigure = (app: Express) => {

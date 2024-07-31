@@ -54,8 +54,41 @@ export const getBookByIdService = async (id: number): Promise<Book> => {
 
 export const createBookService = async (book: Book): Promise<Book> => {
   try {
+    const isAuthor = await db("authors").where({ id: book.author_id }).first();
+
+    if (!isAuthor) {
+      throw new NotFound("Author Not Found!");
+    }
+
     const [newBook] = await db("books").insert(book).returning("*");
     return newBook;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateBookService = async (
+  id: number,
+  book: Book,
+): Promise<Book> => {
+  try {
+    const isBook = await db("books").where({ id }).first();
+
+    if (!isBook) {
+      throw new NotFound("Book Not Found!");
+    }
+
+    const isAuthor = await db("authors").where({ id: book.author_id }).first();
+
+    if (!isAuthor) {
+      throw new NotFound("Author Not Found!");
+    }
+
+    const [updatedBook] = await db("books")
+      .where({ id })
+      .update(book)
+      .returning("*");
+    return updatedBook;
   } catch (error) {
     throw error;
   }
