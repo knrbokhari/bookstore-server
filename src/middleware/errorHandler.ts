@@ -1,11 +1,12 @@
-import { Request, Response } from "express";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Request, Response, NextFunction } from "express";
 import { GeneralError } from "../utils/error";
 
 export const errorHandler = (
   err: Error,
   req: Request,
   res: Response,
-  //   next: NextFunction,
+  next: NextFunction,
 ) => {
   if (err instanceof GeneralError) {
     const code = err.getCode();
@@ -17,7 +18,7 @@ export const errorHandler = (
     name: "internal server error",
     msg:
       process.env.NODE_ENV === "PRODUCTION"
-        ? `Something went wrong, please contact us`
+        ? "Something went wrong, please contact us"
         : err.message,
     status: false,
   });

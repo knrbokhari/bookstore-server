@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-useless-catch */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import db from "../db/knex";
 import { Author, PaginatedAuthor } from "../types";
 import { NotFound } from "../utils/error";
@@ -38,12 +38,11 @@ export const getAllAuthors = async (
   }
 };
 
-export const getAuthorByIdService = async (
-  id: number,
-): Promise<Author | null> => {
+export const getAuthorByIdService = async (id: number): Promise<Author> => {
   try {
     const author: Author = await db("authors").where({ id }).first();
 
+    // if author not found throw not found error
     if (!author) {
       throw new NotFound("Author Not Found!");
     }
@@ -66,10 +65,11 @@ export const createAuthorService = async (author: Author): Promise<Author> => {
 export const updateAuthorService = async (
   id: number,
   author: Author,
-): Promise<Author | null> => {
+): Promise<Author> => {
   try {
     const isAuthor = await db("authors").where({ id }).first();
 
+    // if author not found throw not found error
     if (!isAuthor) {
       throw new NotFound("author not found");
     }
@@ -78,7 +78,7 @@ export const updateAuthorService = async (
       .where({ id })
       .update(author)
       .returning("*");
-    return updatedAuthor || null;
+    return updatedAuthor;
   } catch (error) {
     throw error;
   }
@@ -86,6 +86,14 @@ export const updateAuthorService = async (
 
 export const deleteAuthorService = async (id: number): Promise<boolean> => {
   try {
+    const isAuthor = await db("authors").where({ id }).first();
+
+    // if author not found throw not found error
+    if (!isAuthor) {
+      throw new NotFound("author not found");
+    }
+
+    // delete author
     const rowsAffected = await db("authors").where({ id }).del();
     return rowsAffected > 0;
   } catch (error) {

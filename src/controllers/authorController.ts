@@ -8,7 +8,6 @@ import {
   getAuthorByIdService,
   updateAuthorService,
 } from "../services/authorService";
-// eslint-disable-next-line no-useless-catch
 
 export const getAuthor = asyncHandler(
   async (req: Request<Emty, Emty, Emty, AuthorQuery>, res: Response) => {
