@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import asyncHandler from "../utils/asyncHandler";
-import { Author, AuthorQuery, Emty, PaginatedAuthor } from "../types";
+import { Author, AuthorQuery, Empty, PaginatedAuthor } from "../types";
 import {
   createAuthorService,
   deleteAuthorService,
@@ -11,7 +11,7 @@ import {
 import { getBooksByAuthorIdService } from "../services/bookService";
 
 export const getAuthor = asyncHandler(
-  async (req: Request<Emty, Emty, Emty, AuthorQuery>, res: Response) => {
+  async (req: Request<Empty, Empty, Empty, AuthorQuery>, res: Response) => {
     const page: number = parseInt(req.query.page as string) || 1;
     const limit: number = parseInt(req.query.limit as string) || 10;
 

@@ -20,7 +20,7 @@ export interface AuthorQuery {
   limit?: string;
 }
 
-export interface Emty {}
+export interface Empty {}
 
 export interface Book {
   id?: number;
