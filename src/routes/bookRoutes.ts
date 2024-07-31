@@ -1,8 +1,9 @@
 import { Router, Express } from "express";
+import { getBooks } from "../controllers/bookController";
 
 const router = Router();
 
-router.get("/");
+router.get("/", getBooks);
 router.get("/:id");
 router.get("/author/:id");
 router.post("/");
