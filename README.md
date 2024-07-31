@@ -48,6 +48,12 @@ Run the Knex migrations to set up the database schema:
 npm run migrate
 ```
 
+### Seed Database
+
+```
+npm run seed
+```
+
 ### Project Structure
 
 ```
